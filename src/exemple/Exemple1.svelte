@@ -1,8 +1,10 @@
 <script lang="ts">
-  import { useModal } from "../lib/contexts";
+  import { openModal } from "../lib/main";
   import Modal1 from "./modals/Modal1.svelte";
 
-  const { openModal } = useModal();
+  const {close} = openModal(Modal1, { name: "Test" });
 
-  openModal(Modal1, { name: "Test" });
+  setTimeout(() => {
+    close();
+  }, 5000)
 </script>

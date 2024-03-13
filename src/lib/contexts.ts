@@ -5,7 +5,7 @@ import { readable } from "svelte/store";
 export type OpenModalFunction = <T extends SvelteComponent>(
   component: ComponentType<T>,
   props: ComponentProps<T>,
-) => number;
+) => { close: () => void };
 export type CloseModalFunction = (modalHandle: number) => void;
 export type ActiveModal = {
   handle: number;
