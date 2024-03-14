@@ -1,7 +1,7 @@
 {
   "name": "svelte-modal-renderer",
-  "private": true,
-  "version": "1.0.0",
+  "private": false,
+  "version": "0.1.0",
   "type": "module",
   "exports": {
     ".": {
