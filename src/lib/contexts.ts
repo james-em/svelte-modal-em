@@ -17,6 +17,7 @@ export type ModalConfig = {
   backdropClass: string;
   modalClass: string;
   keyboardEnabled: boolean;
+  events: { [key: string]: (e: any) => void }
 };
 export type ModalContext = {
   openModal: OpenModalFunction;

@@ -1,4 +1,5 @@
 <script lang="ts">
+    import type { SvelteComponent } from "svelte";
   import type { Modal } from "../modal";
 
   export let modal: Modal;
@@ -14,6 +15,14 @@
       modal.close();
     }
   };
+
+  let instance: SvelteComponent;
+
+  $: if (instance && modal.config.events) {
+    for(let [key, listener] of Object.entries(modal.config.events)) {
+      instance.$on(key, listener);
+    }
+  }
 </script>
 
 <div
@@ -34,7 +43,7 @@
     tabindex="0"
     autofocus={true}
   >
-    <svelte:component this={modal.component} {...modal.props} requestClose={() => modal.close()} />
+    <svelte:component this={modal.component} {...modal.props} requestClose={() => modal.close()} bind:this={instance} />
   </div>
 </div>
 

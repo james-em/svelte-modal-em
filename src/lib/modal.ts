@@ -50,6 +50,7 @@ class Modal {
       backdropClass: "modal-backdrop",
       modalClass: "modal",
       keyboardEnabled: true,
+      events: []
     };
   }
 }
