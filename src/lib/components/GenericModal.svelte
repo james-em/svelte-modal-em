@@ -11,22 +11,16 @@
 
   const onKeyboardClick = (e: KeyboardEvent) => {
     if (e.key === "Escape") {
-      e.stopPropagation();
-
       modal.close();
     }
-  };
-
-  const onModalClick = (e: MouseEvent) => {
-    e.stopPropagation();
   };
 </script>
 
 <div
   class={backdropClass}
   class:modal-backdrop-base-style={baseStyle}
-  on:click={handleBackdropClick}
-  on:keyup={onKeyboardClick}
+  on:click|stopPropagation={handleBackdropClick}
+  on:keyup|stopPropagation={onKeyboardClick}
   role="button"
   tabindex="-1"
 >
@@ -34,8 +28,8 @@
     class={modalClass}
     class:modal-base-style={baseStyle}
     class:animated={animation}
-    on:click={onModalClick}
-    on:keyup={onKeyboardClick}
+    on:click|stopPropagation
+    on:keyup|stopPropagation={onKeyboardClick}
     role="button"
     tabindex="0"
     autofocus={true}
