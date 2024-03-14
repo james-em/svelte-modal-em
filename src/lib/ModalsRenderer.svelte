@@ -2,36 +2,35 @@
   import { setContext } from "svelte";
   import { readonly, writable } from "svelte/store";
   import { MODALS } from "./contexts";
-  import type { ActiveModal, CloseModalFunction, ModalContext, OpenModalFunction } from "./contexts";
+  import type { ModalContext, OpenModalFunction } from "./contexts";
+  import GenericModal from "./components/GenericModal.svelte";
+  import { Modal } from "./modal";
 
-  let uniqueId = 0;
+  const modals = writable<Modal[]>([]);
+  const activeModal = writable<Modal | undefined>();
 
-  const modals = writable<ActiveModal[]>([]);
-  const activeModal = writable<ActiveModal>();
+  const openModal: OpenModalFunction = (component, props, config) => {
+    const modal = new Modal(component, props, config || {}, () => closeModal());
 
-  const openModal: OpenModalFunction = (component, props) => {
-    uniqueId++;
-
-    const modal: ActiveModal = { handle: uniqueId, component, props };
+    const closeModal = () => {
+      $modals = $modals.filter((m) => m.id !== modal.id);
+      $activeModal = undefined;
+    };
 
     $modals = $modals.concat(modal);
+    $activeModal = modal;
 
-    return uniqueId;
-  };
-
-  const closeModal: CloseModalFunction = (modalHandle) => {
-    $modals = $modals.filter((modal) => modal.handle !== modalHandle);
+    return { closeModal };
   };
 
   setContext<ModalContext>(MODALS, {
     openModal,
-    closeModal,
     activeModal: readonly(activeModal),
   });
 </script>
 
-{#each $modals as modal (modal.handle)}
-  <svelte:component this={modal.component} {...modal.props || {}} />
+{#each $modals as modal (modal.id)}
+  <GenericModal {modal} />
 {/each}
 
 <slot />

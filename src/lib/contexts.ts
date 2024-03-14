@@ -1,21 +1,26 @@
-import type { SvelteComponent, ComponentType, ComponentProps } from "svelte";
 import { getContext } from "svelte";
 import { readable } from "svelte/store";
 
+import type { SvelteComponent, ComponentType, ComponentProps } from "svelte";
+import type { Modal } from "./modal";
+
+export type CloseModalFunction = () => void;
+export type OpenModalReturnType = { closeModal: CloseModalFunction };
 export type OpenModalFunction = <T extends SvelteComponent>(
   component: ComponentType<T>,
   props: ComponentProps<T>,
-) => number;
-export type CloseModalFunction = (modalHandle: number) => void;
-export type ActiveModal = {
-  handle: number;
-  component: ComponentType;
-  props: ComponentProps<SvelteComponent>;
+  config?: Partial<ModalConfig>,
+) => OpenModalReturnType;
+export type ModalConfig = {
+  animation: boolean;
+  baseStyle: boolean;
+  backdropClass: string;
+  modalClass: string;
+  keyboardEnabled: boolean;
 };
 export type ModalContext = {
   openModal: OpenModalFunction;
-  closeModal: CloseModalFunction;
-  activeModal: ReturnType<typeof readable<ActiveModal | undefined>>;
+  activeModal: ReturnType<typeof readable<Modal | undefined>>;
 };
 
 export const MODALS = "MODALS";

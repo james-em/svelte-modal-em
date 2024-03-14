@@ -4,5 +4,11 @@
 
   const { openModal } = useModal();
 
-  openModal(Modal1, { name: "Test" });
+  const openExempleModal = () => {
+    const { closeModal } = openModal(Modal1, { name: "Test", onClose: () => closeExempleModal() });
+
+    const closeExempleModal = () => closeModal();
+  };
 </script>
+
+<button on:click={openExempleModal}>Open modal</button>

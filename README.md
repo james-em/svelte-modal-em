@@ -1,4 +1,4 @@
-# svelte-modal-em
+# svelte-modal-renderer
 
 Just a barebone demo to render something from anywhere
 
@@ -12,11 +12,18 @@ Just a barebone demo to render something from anywhere
 </ModalsRenderer>
 ```
 
-Somewhere
+**Modal1.svelte**
+```svelte
+<script lang="ts">
+  const { requestClose } = $$restProps;
+</script>
+
+<button on:click={requestClose}>Close</button>
+```
+
+**Somewhere.svelte**
 ```ts
-  const { openModal, closeModal } = useModal();
+const { openModal } = useModal();
 
-  const handle = openModal(Modal1, { name: "Test" });
-
-  // closeModal(handle)
+const { closeModal } = openModal(Modal1, { ...props }, { ...config });
 ```
